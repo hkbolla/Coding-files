@@ -1,0 +1,13 @@
+CREATE TABLE customers(ID int,NAME varchar(255),AGE NUMBER(3),Address varchar(255),SALARY NUMBER(6));
+INSERT INTO customers(ID,NAME,AGE,Address,SALARY)
+VALUES(1,'Ramesh',32,'Ahmedabad',2000);
+INSERT INTO customers(ID,NAME,AGE,Address,SALARY)
+VALUES(2,'Khilan',25,'Delhi',1500);
+INSERT INTO customers(ID,NAME,AGE,Address,SALARY)
+VALUES(3,'Kaushik',23,'Kota',2000);
+INSERT INTO customers(ID,NAME,AGE,Address,SALARY)
+VALUES(4,'Chaitali',25,'Mumbai',6500);
+INSERT INTO customers(ID,NAME,AGE,Address,SALARY)
+VALUES(5,'Hardik',27,'Bhopal',8500);
+INSERT INTO customers(ID,NAME,AGE,Address,SALARY)
+VALUES(6,'Komal',22,'MP',4500);

@@ -1,0 +1,886 @@
+
+SQL*Plus: Release 11.2.0.1.0 Production on Sat Jul 31 14:59:55 2021
+
+Copyright (c) 1982, 2010, Oracle.  All rights reserved.
+
+Enter user-name: bhk
+Enter password:
+
+Connected to:
+Oracle Database 11g Enterprise Edition Release 11.2.0.1.0 - 64bit Production
+With the Partitioning, OLAP, Data Mining and Real Application Testing options
+
+SQL> selecct * from customer
+SP2-0734: unknown command beginning "selecct * ..." - rest of line ignored.
+SQL> select * from customer
+  2  ;
+
+        ID USERNAME                    AGE ADDRESS                       SALARY
+---------- -------------------- ---------- ------------------------- ----------
+         1 hari                         20 dza                            40000
+         2 krishna                      20                                40000
+         4 mani                         21                                 5000
+
+SQL> select * from employee;
+
+        ID NAME                        AGE ADDRESS                  SALARY
+---------- -------------------- ---------- -------------------- ----------
+         1 hari                         38 3-77/2,bheemavaram       100000
+         2 krishna                      22 3-22/2,bheemavaram       200000
+         3 mani                         23 bheemavaram             3000000
+         4 mounika                      28 gantavaripalle           250000
+
+SQL> select id,name,from employee where salary>100000;
+select id,name,from employee where salary>100000
+               *
+ERROR at line 1:
+ORA-00936: missing expression
+
+
+SQL> select id,namefrom employee where salary>100000;
+select id,namefrom employee where salary>100000
+                            *
+ERROR at line 1:
+ORA-00923: FROM keyword not found where expected
+
+
+SQL> select id,name from employee where salary>100000;
+
+        ID NAME
+---------- --------------------
+         2 krishna
+         3 mani
+         4 mounika
+
+SQL> select * from employee where (id=2 AND name=krishna);
+select * from employee where (id=2 AND name=krishna)
+                                            *
+ERROR at line 1:
+ORA-00904: "KRISHNA": invalid identifier
+
+
+SQL> select * from employee where (id=2 AND name='krishna');
+
+        ID NAME                        AGE ADDRESS                  SALARY
+---------- -------------------- ---------- -------------------- ----------
+         2 krishna                      22 3-22/2,bheemavaram       200000
+
+SQL>   select * from employee where (id=2 and name'krishna') OR salary>100000;
+  select * from employee where (id=2 and name'krishna') OR salary>100000
+                                  *
+ERROR at line 1:
+ORA-00920: invalid relational operator
+
+
+SQL>   select * from employee where (id=2 and name'krishna') OR (salary>100000);
+  select * from employee where (id=2 and name'krishna') OR (salary>100000)
+                                  *
+ERROR at line 1:
+ORA-00920: invalid relational operator
+
+
+SQL>   select * from employee where (id=2 and name='krishna') OR (salary>100000);
+
+        ID NAME                        AGE ADDRESS                  SALARY
+---------- -------------------- ---------- -------------------- ----------
+         2 krishna                      22 3-22/2,bheemavaram       200000
+         3 mani                         23 bheemavaram             3000000
+         4 mounika                      28 gantavaripalle           250000
+
+SQL> create table prod(id number primary key,iname varchar(20),cate varchar2(20),qty number,rate number,cost number);
+
+Table created.
+
+SQL> desc prd;
+ERROR:
+ORA-04043: object prd does not exist
+
+
+SQL> desc prod;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ ID                                        NOT NULL NUMBER
+ INAME                                              VARCHAR2(20)
+ CATE                                               VARCHAR2(20)
+ QTY                                                NUMBER
+ RATE                                               NUMBER
+ COST                                               NUMBER
+
+SQL> insert into prod values(&id,'&iname','&cate',&qty,&rate,&cost);
+Enter value for id: 1
+Enter value for iname: item1
+Enter value for cate: com1
+Enter value for qty: 2
+Enter value for rate: 10
+Enter value for cost: 20
+old   1: insert into prod values(&id,'&iname','&cate',&qty,&rate,&cost)
+new   1: insert into prod values(1,'item1','com1',2,10,20)
+
+1 row created.
+
+SQL> insert into prod values(&id,'&iname','&cate',&qty,&rate,&cost);
+Enter value for id: 2
+Enter value for iname: item2
+Enter value for cate: 3
+Enter value for qty: 25
+Enter value for rate: 75
+Enter value for cost: 75
+old   1: insert into prod values(&id,'&iname','&cate',&qty,&rate,&cost)
+new   1: insert into prod values(2,'item2','3',25,75,75)
+
+1 row created.
+
+SQL> insert into prod values(&id,'&iname','&cate',&qty,&rate,&cost);
+Enter value for id: 3
+Enter value for iname: item3
+Enter value for cate: com1
+Enter value for qty: 2
+Enter value for rate: 30
+Enter value for cost: 60
+old   1: insert into prod values(&id,'&iname','&cate',&qty,&rate,&cost)
+new   1: insert into prod values(3,'item3','com1',2,30,60)
+
+1 row created.
+
+SQL> insert into prod values(&id,'&iname','&cate',&qty,&rate,&cost);
+Enter value for id: 4
+Enter value for iname: item4
+Enter value for cate: com3
+Enter value for qty: 5
+Enter value for rate: 10
+Enter value for cost: 50
+old   1: insert into prod values(&id,'&iname','&cate',&qty,&rate,&cost)
+new   1: insert into prod values(4,'item4','com3',5,10,50)
+
+1 row created.
+
+SQL> insert into prod values(&id,'&iname','&cate',&qty,&rate,&cost);
+Enter value for id: 5
+Enter value for iname: item5
+Enter value for cate: com2
+Enter value for qty: 2
+Enter value for rate: 20
+Enter value for cost: 40
+old   1: insert into prod values(&id,'&iname','&cate',&qty,&rate,&cost)
+new   1: insert into prod values(5,'item5','com2',2,20,40)
+
+1 row created.
+
+SQL> insert into prod values(&id,'&iname','&cate',&qty,&rate,&cost);
+Enter value for id: 6
+Enter value for iname: item6
+Enter value for cate: com1
+Enter value for qty: 3
+Enter value for rate: 25
+Enter value for cost: 75
+old   1: insert into prod values(&id,'&iname','&cate',&qty,&rate,&cost)
+new   1: insert into prod values(6,'item6','com1',3,25,75)
+
+1 row created.
+
+SQL> 7
+SP2-0226: Invalid line number
+SQL> insert into prod values(&id,'&iname','&cate',&qty,&rate,&cost);
+Enter value for id: 7
+Enter value for iname: item7
+Enter value for cate: com1
+Enter value for qty: 5
+Enter value for rate: 30
+Enter value for cost: 150
+old   1: insert into prod values(&id,'&iname','&cate',&qty,&rate,&cost)
+new   1: insert into prod values(7,'item7','com1',5,30,150)
+
+1 row created.
+
+SQL> insert into prod values(&id,'&iname','&cate',&qty,&rate,&cost);
+Enter value for id: 8
+Enter value for iname: item8
+Enter value for cate: com1
+Enter value for qty: 3
+Enter value for rate: 10
+Enter value for cost: 30
+old   1: insert into prod values(&id,'&iname','&cate',&qty,&rate,&cost)
+new   1: insert into prod values(8,'item8','com1',3,10,30)
+
+1 row created.
+
+SQL> insert into prod values(&id,'&iname','&cate',&qty,&rate,&cost);
+Enter value for id: 9
+Enter value for iname: item9
+Enter value for cate: com2
+Enter value for qty: 2
+Enter value for rate: 25
+Enter value for cost: 50
+old   1: insert into prod values(&id,'&iname','&cate',&qty,&rate,&cost)
+new   1: insert into prod values(9,'item9','com2',2,25,50)
+
+1 row created.
+
+SQL> insert into prod values(&id,'&iname','&cate',&qty,&rate,&cost);
+Enter value for id: 10
+Enter value for iname: item10
+Enter value for cate: com3
+Enter value for qty: 4
+Enter value for rate: 30
+Enter value for cost: 120
+old   1: insert into prod values(&id,'&iname','&cate',&qty,&rate,&cost)
+new   1: insert into prod values(10,'item10','com3',4,30,120)
+
+1 row created.
+
+SQL> select * from prod;
+
+        ID INAME                CATE                        QTY       RATE
+---------- -------------------- -------------------- ---------- ----------
+      COST
+----------
+         1 item1                com1                          2         10
+        20
+
+         2 item2                3                            25         75
+        75
+
+         3 item3                com1                          2         30
+        60
+
+
+        ID INAME                CATE                        QTY       RATE
+---------- -------------------- -------------------- ---------- ----------
+      COST
+----------
+         4 item4                com3                          5         10
+        50
+
+         5 item5                com2                          2         20
+        40
+
+         6 item6                com1                          3         25
+        75
+
+
+        ID INAME                CATE                        QTY       RATE
+---------- -------------------- -------------------- ---------- ----------
+      COST
+----------
+         7 item7                com1                          5         30
+       150
+
+         8 item8                com1                          3         10
+        30
+
+         9 item9                com2                          2         25
+        50
+
+
+        ID INAME                CATE                        QTY       RATE
+---------- -------------------- -------------------- ---------- ----------
+      COST
+----------
+        10 item10               com3                          4         30
+       120
+
+
+10 rows selected.
+
+SQL> update prod set rate=25 where id=2;
+
+1 row updated.
+
+SQL> select * from prod;
+
+        ID INAME                CATE                        QTY       RATE
+---------- -------------------- -------------------- ---------- ----------
+      COST
+----------
+         1 item1                com1                          2         10
+        20
+
+         2 item2                3                            25         25
+        75
+
+         3 item3                com1                          2         30
+        60
+
+
+        ID INAME                CATE                        QTY       RATE
+---------- -------------------- -------------------- ---------- ----------
+      COST
+----------
+         4 item4                com3                          5         10
+        50
+
+         5 item5                com2                          2         20
+        40
+
+         6 item6                com1                          3         25
+        75
+
+
+        ID INAME                CATE                        QTY       RATE
+---------- -------------------- -------------------- ---------- ----------
+      COST
+----------
+         7 item7                com1                          5         30
+       150
+
+         8 item8                com1                          3         10
+        30
+
+         9 item9                com2                          2         25
+        50
+
+
+        ID INAME                CATE                        QTY       RATE
+---------- -------------------- -------------------- ---------- ----------
+      COST
+----------
+        10 item10               com3                          4         30
+       120
+
+
+10 rows selected.
+
+SQL> alter table prod (iname varchar2(10),cate varchar2(5));
+alter table prod (iname varchar2(10),cate varchar2(5))
+                 *
+ERROR at line 1:
+ORA-01735: invalid ALTER TABLE option
+
+
+SQL> alter table prod modify (iname varchar2(10),cate varchar2(5));
+
+Table altered.
+
+SQL> select * from prod;
+
+        ID INAME      CATE         QTY       RATE       COST
+---------- ---------- ----- ---------- ---------- ----------
+         1 item1      com1           2         10         20
+         2 item2      3             25         25         75
+         3 item3      com1           2         30         60
+         4 item4      com3           5         10         50
+         5 item5      com2           2         20         40
+         6 item6      com1           3         25         75
+         7 item7      com1           5         30        150
+         8 item8      com1           3         10         30
+         9 item9      com2           2         25         50
+        10 item10     com3           4         30        120
+
+10 rows selected.
+
+SQL> select * from prod where cate='com1;
+ERROR:
+ORA-01756: quoted string not properly terminated
+
+
+SQL> select * from prod where cate='com1';
+
+        ID INAME      CATE         QTY       RATE       COST
+---------- ---------- ----- ---------- ---------- ----------
+         1 item1      com1           2         10         20
+         3 item3      com1           2         30         60
+         6 item6      com1           3         25         75
+         7 item7      com1           5         30        150
+         8 item8      com1           3         10         30
+
+SQL> select * from prod where cate='com1' and qty>3;
+
+        ID INAME      CATE         QTY       RATE       COST
+---------- ---------- ----- ---------- ---------- ----------
+         7 item7      com1           5         30        150
+
+SQL> select * from prod where cate='com1' and qty>=3;
+
+        ID INAME      CATE         QTY       RATE       COST
+---------- ---------- ----- ---------- ---------- ----------
+         6 item6      com1           3         25         75
+         7 item7      com1           5         30        150
+         8 item8      com1           3         10         30
+
+SQL> select * from prod where cate='com1' or qty>=3;
+
+        ID INAME      CATE         QTY       RATE       COST
+---------- ---------- ----- ---------- ---------- ----------
+         1 item1      com1           2         10         20
+         2 item2      3             25         25         75
+         3 item3      com1           2         30         60
+         4 item4      com3           5         10         50
+         6 item6      com1           3         25         75
+         7 item7      com1           5         30        150
+         8 item8      com1           3         10         30
+        10 item10     com3           4         30        120
+
+8 rows selected.
+
+SQL> select * from prod where cate='com1' and (rate>30 or qty>=3;
+select * from prod where cate='com1' and (rate>30 or qty>=3
+                                              *
+ERROR at line 1:
+ORA-00907: missing right parenthesis
+
+
+SQL> select * from prod where cate='com1' and (rate>30 or qty>=3);
+
+        ID INAME      CATE         QTY       RATE       COST
+---------- ---------- ----- ---------- ---------- ----------
+         6 item6      com1           3         25         75
+         7 item7      com1           5         30        150
+         8 item8      com1           3         10         30
+
+SQL> select * from prod where cate='com1' and (rate>=30 or qty>=3);
+
+        ID INAME      CATE         QTY       RATE       COST
+---------- ---------- ----- ---------- ---------- ----------
+         3 item3      com1           2         30         60
+         6 item6      com1           3         25         75
+         7 item7      com1           5         30        150
+         8 item8      com1           3         10         30
+
+SQL> select * from prod where rate between 25 and 30;
+
+        ID INAME      CATE         QTY       RATE       COST
+---------- ---------- ----- ---------- ---------- ----------
+         2 item2      3             25         25         75
+         3 item3      com1           2         30         60
+         6 item6      com1           3         25         75
+         7 item7      com1           5         30        150
+         9 item9      com2           2         25         50
+        10 item10     com3           4         30        120
+
+6 rows selected.
+
+SQL>  select * from prod where cate between 'com1' and 'com2';
+
+        ID INAME      CATE         QTY       RATE       COST
+---------- ---------- ----- ---------- ---------- ----------
+         1 item1      com1           2         10         20
+         3 item3      com1           2         30         60
+         5 item5      com2           2         20         40
+         6 item6      com1           3         25         75
+         7 item7      com1           5         30        150
+         8 item8      com1           3         10         30
+         9 item9      com2           2         25         50
+
+7 rows selected.
+
+SQL>  select * from prod where cate between 'com1' and 'com3';
+
+        ID INAME      CATE         QTY       RATE       COST
+---------- ---------- ----- ---------- ---------- ----------
+         1 item1      com1           2         10         20
+         3 item3      com1           2         30         60
+         4 item4      com3           5         10         50
+         5 item5      com2           2         20         40
+         6 item6      com1           3         25         75
+         7 item7      com1           5         30        150
+         8 item8      com1           3         10         30
+         9 item9      com2           2         25         50
+        10 item10     com3           4         30        120
+
+9 rows selected.
+
+SQL> select * from prod order by cost;
+
+        ID INAME      CATE         QTY       RATE       COST
+---------- ---------- ----- ---------- ---------- ----------
+         1 item1      com1           2         10         20
+         8 item8      com1           3         10         30
+         5 item5      com2           2         20         40
+         4 item4      com3           5         10         50
+         9 item9      com2           2         25         50
+         3 item3      com1           2         30         60
+         6 item6      com1           3         25         75
+         2 item2      3             25         25         75
+        10 item10     com3           4         30        120
+         7 item7      com1           5         30        150
+
+10 rows selected.
+
+SQL> select * from prod order by desc cost;
+select * from prod order by desc cost
+                            *
+ERROR at line 1:
+ORA-00936: missing expression
+
+
+SQL> select * from prod order by  cost;
+
+        ID INAME      CATE         QTY       RATE       COST
+---------- ---------- ----- ---------- ---------- ----------
+         1 item1      com1           2         10         20
+         8 item8      com1           3         10         30
+         5 item5      com2           2         20         40
+         4 item4      com3           5         10         50
+         9 item9      com2           2         25         50
+         3 item3      com1           2         30         60
+         6 item6      com1           3         25         75
+         2 item2      3             25         25         75
+        10 item10     com3           4         30        120
+         7 item7      com1           5         30        150
+
+10 rows selected.
+
+SQL> select * from prod order by  cost DESC;
+
+        ID INAME      CATE         QTY       RATE       COST
+---------- ---------- ----- ---------- ---------- ----------
+         7 item7      com1           5         30        150
+        10 item10     com3           4         30        120
+         2 item2      3             25         25         75
+         6 item6      com1           3         25         75
+         3 item3      com1           2         30         60
+         9 item9      com2           2         25         50
+         4 item4      com3           5         10         50
+         5 item5      com2           2         20         40
+         8 item8      com1           3         10         30
+         1 item1      com1           2         10         20
+
+10 rows selected.
+
+SQL> select * from prod order by 2;
+
+        ID INAME      CATE         QTY       RATE       COST
+---------- ---------- ----- ---------- ---------- ----------
+         1 item1      com1           2         10         20
+        10 item10     com3           4         30        120
+         2 item2      3             25         25         75
+         3 item3      com1           2         30         60
+         4 item4      com3           5         10         50
+         5 item5      com2           2         20         40
+         6 item6      com1           3         25         75
+         7 item7      com1           5         30        150
+         8 item8      com1           3         10         30
+         9 item9      com2           2         25         50
+
+10 rows selected.
+
+SQL> select * from prod order by 4
+  2  ;
+
+        ID INAME      CATE         QTY       RATE       COST
+---------- ---------- ----- ---------- ---------- ----------
+         1 item1      com1           2         10         20
+         5 item5      com2           2         20         40
+         9 item9      com2           2         25         50
+         3 item3      com1           2         30         60
+         6 item6      com1           3         25         75
+         8 item8      com1           3         10         30
+        10 item10     com3           4         30        120
+         7 item7      com1           5         30        150
+         4 item4      com3           5         10         50
+         2 item2      3             25         25         75
+
+10 rows selected.
+
+SQL> select * from prod order by 5;
+
+        ID INAME      CATE         QTY       RATE       COST
+---------- ---------- ----- ---------- ---------- ----------
+         1 item1      com1           2         10         20
+         8 item8      com1           3         10         30
+         4 item4      com3           5         10         50
+         5 item5      com2           2         20         40
+         6 item6      com1           3         25         75
+         2 item2      3             25         25         75
+         9 item9      com2           2         25         50
+        10 item10     com3           4         30        120
+         7 item7      com1           5         30        150
+         3 item3      com1           2         30         60
+
+10 rows selected.
+
+SQL> select * from prod order by 5,6;
+
+        ID INAME      CATE         QTY       RATE       COST
+---------- ---------- ----- ---------- ---------- ----------
+         1 item1      com1           2         10         20
+         8 item8      com1           3         10         30
+         4 item4      com3           5         10         50
+         5 item5      com2           2         20         40
+         9 item9      com2           2         25         50
+         6 item6      com1           3         25         75
+         2 item2      3             25         25         75
+         3 item3      com1           2         30         60
+        10 item10     com3           4         30        120
+         7 item7      com1           5         30        150
+
+10 rows selected.
+
+SQL> select * from prod ;
+
+        ID INAME      CATE         QTY       RATE       COST
+---------- ---------- ----- ---------- ---------- ----------
+         1 item1      com1           2         10         20
+         2 item2      3             25         25         75
+         3 item3      com1           2         30         60
+         4 item4      com3           5         10         50
+         5 item5      com2           2         20         40
+         6 item6      com1           3         25         75
+         7 item7      com1           5         30        150
+         8 item8      com1           3         10         30
+         9 item9      com2           2         25         50
+        10 item10     com3           4         30        120
+
+10 rows selected.
+
+SQL> select * from prod order by qty desc,rate asc;
+
+        ID INAME      CATE         QTY       RATE       COST
+---------- ---------- ----- ---------- ---------- ----------
+         2 item2      3             25         25         75
+         4 item4      com3           5         10         50
+         7 item7      com1           5         30        150
+        10 item10     com3           4         30        120
+         8 item8      com1           3         10         30
+         6 item6      com1           3         25         75
+         1 item1      com1           2         10         20
+         5 item5      com2           2         20         40
+         9 item9      com2           2         25         50
+         3 item3      com1           2         30         60
+
+10 rows selected.
+
+SQL> select count(cate) from prod;
+
+COUNT(CATE)
+-----------
+         10
+
+SQL> select count(distinct(cate)) from prod;
+
+COUNT(DISTINCT(CATE))
+---------------------
+                    4
+
+SQL> select count(all qty) from prod;
+
+COUNT(ALLQTY)
+-------------
+           10
+
+SQL> select sum(all qty) from prod;
+
+SUM(ALLQTY)
+-----------
+         53
+
+SQL> select count(distinct qty) from prod;
+
+COUNT(DISTINCTQTY)
+------------------
+                 5
+
+SQL> select count(distinct(qty)) from prod;
+
+COUNT(DISTINCT(QTY))
+--------------------
+                   5
+
+SQL> select count(qty) from prod;
+
+COUNT(QTY)
+----------
+        10
+
+SQL> select sum(distinct qty) from prod;
+
+SUM(DISTINCTQTY)
+----------------
+              39
+
+SQL> select sum( qty) from prod;
+
+  SUM(QTY)
+----------
+        53
+
+SQL> select sum( all qty) from prod;
+
+SUM(ALLQTY)
+-----------
+         53
+
+SQL> select * from prod;
+
+        ID INAME      CATE         QTY       RATE       COST
+---------- ---------- ----- ---------- ---------- ----------
+         1 item1      com1           2         10         20
+         2 item2      3             25         25         75
+         3 item3      com1           2         30         60
+         4 item4      com3           5         10         50
+         5 item5      com2           2         20         40
+         6 item6      com1           3         25         75
+         7 item7      com1           5         30        150
+         8 item8      com1           3         10         30
+         9 item9      com2           2         25         50
+        10 item10     com3           4         30        120
+
+10 rows selected.
+
+SQL> select avg(rate) from prod;
+
+ AVG(RATE)
+----------
+      21.5
+
+SQL> select avg(rate,qty,cost) from prod;
+select avg(rate,qty,cost) from prod
+       *
+ERROR at line 1:
+ORA-00909: invalid number of arguments
+
+
+SQL> select avg(distinct rate) from prod;
+
+AVG(DISTINCTRATE)
+-----------------
+            21.25
+
+SQL> select avg(distinct qty) from prod;
+
+AVG(DISTINCTQTY)
+----------------
+             7.8
+
+SQL> select min(cost) from prod;
+
+ MIN(COST)
+----------
+        20
+
+SQL> select max(cost) from prod;
+
+ MAX(COST)
+----------
+       150
+
+SQL> select * from prod;
+
+        ID INAME      CATE         QTY       RATE       COST
+---------- ---------- ----- ---------- ---------- ----------
+         1 item1      com1           2         10         20
+         2 item2      3             25         25         75
+         3 item3      com1           2         30         60
+         4 item4      com3           5         10         50
+         5 item5      com2           2         20         40
+         6 item6      com1           3         25         75
+         7 item7      com1           5         30        150
+         8 item8      com1           3         10         30
+         9 item9      com2           2         25         50
+        10 item10     com3           4         30        120
+
+10 rows selected.
+
+SQL> select sum(cost) from prod group by cate;
+
+ SUM(COST)
+----------
+        75
+       170
+        90
+       335
+
+SQL> select cate,sum(cost) from prod group by cate;
+
+CATE   SUM(COST)
+----- ----------
+3             75
+com3         170
+com2          90
+com1         335
+
+SQL> select cate,sum(qty) from prod group by cate;
+
+CATE    SUM(QTY)
+----- ----------
+3             25
+com3           9
+com2           4
+com1          15
+
+SQL> select cate,sum(qty) from prod group by iname;
+select cate,sum(qty) from prod group by iname
+       *
+ERROR at line 1:
+ORA-00979: not a GROUP BY expression
+
+
+SQL> select cate,sum(qty) from prod group by cost;
+select cate,sum(qty) from prod group by cost
+       *
+ERROR at line 1:
+ORA-00979: not a GROUP BY expression
+
+
+SQL> select cate,sum(qty) from prod group by cate;
+
+CATE    SUM(QTY)
+----- ----------
+3             25
+com3           9
+com2           4
+com1          15
+
+SQL> select cate,sum(qty) from prod group by cate order by cate;
+
+CATE    SUM(QTY)
+----- ----------
+3             25
+com1          15
+com2           4
+com3           9
+
+SQL> select cate,sum(qty) as availabe from prod group by cate order by available;
+select cate,sum(qty) as availabe from prod group by cate order by available
+                                                                  *
+ERROR at line 1:
+ORA-00904: "AVAILABLE": invalid identifier
+
+
+SQL> select cate,sum(qty) as availabes from prod group by cate order by availables;
+select cate,sum(qty) as availabes from prod group by cate order by availables
+                                                                   *
+ERROR at line 1:
+ORA-00904: "AVAILABLES": invalid identifier
+
+
+SQL> select cate,sum(qty) as availables from prod group by cate order by availables;
+
+CATE  AVAILABLES
+----- ----------
+com2           4
+com3           9
+com1          15
+3             25
+
+SQL> select inmae,sum(qty) from prod where rate>10 group by cate;
+select inmae,sum(qty) from prod where rate>10 group by cate
+       *
+ERROR at line 1:
+ORA-00904: "INMAE": invalid identifier
+
+
+SQL> select iname,sum(qty) from prod where rate>10 group by cate;
+select iname,sum(qty) from prod where rate>10 group by cate
+       *
+ERROR at line 1:
+ORA-00979: not a GROUP BY expression
+
+
+SQL> select id,sum(qty) from prod where rate>10 group by cate;
+select id,sum(qty) from prod where rate>10 group by cate
+       *
+ERROR at line 1:
+ORA-00979: not a GROUP BY expression
+
+
+SQL> select cate,sum(qty) from prod where rate>10 group by cate;
+
+CATE    SUM(QTY)
+----- ----------
+3             25
+com2           4
+com3           4
+com1          10
+
+SQL>
